@@ -1,12 +1,17 @@
-<h2>Olympic games app</h2>
+<h2>Olympic games</h2>
 <hr />
+
+<p class="lead">You can find here informations about olympic medals from several countries.</p>
+
 <p>{{ (olympics$ | async)?.length }} data loaded</p>
 
-<h3>Pie Chart</h3>
+<h3 >Pie Chart</h3>
 <ngx-charts-pie-chart
-  [results]="surveyData"
+
+  [results]=  "surveyData"
   [legend]="true"
   [legendTitle]="'Vehicle Survey'"
   [view]="[1000,300]"
   [labels]="true" >
 </ngx-charts-pie-chart>
+<!-- *ngIf="olympics$ | async as surveyData" -->

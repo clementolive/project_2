@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable, of } from 'rxjs';
+import { Participation } from 'src/app/core/models/Participation';
 import { OlympicService } from 'src/app/core/services/olympic.service';
 
 @Component({
@@ -16,6 +17,7 @@ export class HomeComponent implements OnInit {
     this.olympics$ = this.olympicService.getOlympics();
   }
 
+  //for testing only 
   surveyData = [
     { name: 'Bikes', value: 105000 },
     { name: 'Cars', value: 55000 },
@@ -23,4 +25,6 @@ export class HomeComponent implements OnInit {
     { name: 'Scooter', value: 150000 },
     { name: 'Bus', value: 20000 }
   ];
+
+  parts!: Participation[];
 }
