@@ -1,13 +1,40 @@
-<h2>Olympic games</h2>
-<hr />
 
-<p class="lead">You can find here informations about olympic medals from several countries.</p>
+
+
+
 
 <!-- <p>{{ (olympics$ | async)?.length }} data loaded</p> -->
-<p>Number of JOs: {{testData.length}}</p>
-<p>Number of countries: {{testData.length}}</p>
-<h3 >Medals per country</h3>
-<ngx-charts-pie-chart
+
+<div class="card text-bg-primary">
+  <div class="card-body">
+    <h5 class="card-title">Medals per country</h5>
+  </div>
+</div>
+
+<hr />
+<p class="lead">You can find here informations about olympic medals from several countries.</p>
+<hr />
+
+<div class="row row-cols-1 row-cols-md-2 g-4">
+  <div class="col">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Number of JOs:</h5>
+        <p class="card-text">{{testData.length}}</p>
+      </div>
+    </div>
+  </div>
+  <div class="col">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Number of countries: </h5>
+        <p class="card-text">{{testData.length}}</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ngx-charts-pie-chart 
   [results]=  "testData"
   [legend]="true"
   [legendTitle]="'Medals per Country'"
@@ -16,6 +43,6 @@
   (select) = "onSelect()"
   (activate) = "onActivate()"
   >
-  
 </ngx-charts-pie-chart>
+
 <!-- *ngIf="olympics$ | async as surveyData" -->

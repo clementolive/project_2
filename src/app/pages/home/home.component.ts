@@ -169,7 +169,6 @@ export class HomeComponent implements OnInit {
    //console.log(this.testData = this.getMedalsFromObs());
   }
 
-
   getMedalsPerCountry(){
     let array:any = [];
     this.data.forEach(element => {
