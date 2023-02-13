@@ -3,15 +3,15 @@
 
 <p class="lead">You can find here informations about olympic medals from several countries.</p>
 
-<p>{{ (olympics$ | async)?.length }} data loaded</p>
-
-<h3 >Pie Chart</h3>
+<!-- <p>{{ (olympics$ | async)?.length }} data loaded</p> -->
+<p>Number of JOs: {{testData.length}}</p>
+<p>Number of countries: {{testData.length}}</p>
+<h3 >Medals per country</h3>
 <ngx-charts-pie-chart
-
-  [results]=  "surveyData"
+  [results]=  "testData"
   [legend]="true"
-  [legendTitle]="'Vehicle Survey'"
-  [view]="[1000,300]"
+  [legendTitle]="'Medals per Country'"
+  [view]="[1000,500]"
   [labels]="true" >
 </ngx-charts-pie-chart>
 <!-- *ngIf="olympics$ | async as surveyData" -->

@@ -31,6 +31,16 @@ export class OlympicService {
   }
 
   getMedalsCount(){
+    let array:any = [];
+    this.getOlympics().forEach(element => {
+      let name = element.country;
+      let value = 0;
+      element.participations.forEach((element: { medalsCount: number; }) => {
+       value += element.medalsCount;
+      });
+      array.push({name,value});
     
+    });
+    return array ;
   }
 }

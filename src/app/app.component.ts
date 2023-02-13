@@ -15,4 +15,6 @@ export class AppComponent implements OnInit {
     this.olympicService.loadInitialData().pipe(take(1)).subscribe();
     this.title = "olympic-games-starter"
   }
+
+  
 }
