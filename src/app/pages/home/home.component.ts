@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { Participation } from 'src/app/core/models/Participation';
 import { OlympicService } from 'src/app/core/services/olympic.service';
@@ -14,7 +15,7 @@ type PieMedals = {
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
-  public olympics$: Observable<any> = of(null);
+  public olympics$!: Observable<any>;
 
   data = [
     {
@@ -158,12 +159,14 @@ export class HomeComponent implements OnInit {
   testData = [];
   countries!: number;
 
-  constructor(private olympicService: OlympicService) {}
+  constructor(private olympicService: OlympicService, 
+    private router:Router) {}
 
   ngOnInit(): void {
     this.olympics$ = this.olympicService.getOlympics();
+    console.log(this.olympics$);
     console.log(this.testData = this.getMedalsPerCountry());
-    //console.log(this.olympicService.getMedalsCount());
+   //console.log(this.testData = this.getMedalsFromObs());
   }
 
 
@@ -180,4 +183,29 @@ export class HomeComponent implements OnInit {
     });
     return array ;
   }
+
+  getMedalsFromObs(){
+    let array:any = [];
+    this.olympics$.forEach(element => {
+      let name = element.country;
+      let value = 0;
+      element.participations.forEach((element: { medalsCount: number; }) => {
+       value += element.medalsCount;
+      });
+      array.push({name,value});
+    
+    });
+    return array ;
+  }
+
+  //hover 
+  onActivate(){
+
+  }
+
+  //click on element 
+  onSelect(){
+    this.router.navigate(['detail']);
+  }
+
 }

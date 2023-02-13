@@ -12,6 +12,10 @@
   [legend]="true"
   [legendTitle]="'Medals per Country'"
   [view]="[1000,500]"
-  [labels]="true" >
+  [labels]="true" 
+  (select) = "onSelect()"
+  (activate) = "onActivate()"
+  >
+  
 </ngx-charts-pie-chart>
 <!-- *ngIf="olympics$ | async as surveyData" -->
