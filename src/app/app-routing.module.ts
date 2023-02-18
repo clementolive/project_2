@@ -5,18 +5,10 @@ import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { DetailComponent } from './pages/detail/detail.component';
 
 const routes: Routes = [
-  {
-    path: '',
-    component: HomeComponent,
-  },
-  {
-    path: 'detail',
-    component: DetailComponent,
-  },
-  {
-    path: '**', // wildcard
-    component: NotFoundComponent,
-  },
+  {path: '',component: HomeComponent},
+  {path: 'detail',component: DetailComponent},
+  {path: 'detail/:country',component: DetailComponent},
+  {path: '**', component: NotFoundComponent}, // wildcard
 
 ];
 

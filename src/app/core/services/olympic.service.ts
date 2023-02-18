@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { catchError, map, tap } from 'rxjs/operators';
+import { Olympic } from '../models/Olympic';
 import { Participation } from '../models/Participation';
 
 @Injectable({
@@ -9,13 +10,17 @@ import { Participation } from '../models/Participation';
 })
 export class OlympicService {
   private olympicUrl = './assets/mock/olympic.json';
-  private olympics$ = new BehaviorSubject<any>(undefined);
+  private olympics$ = new BehaviorSubject<any>(null);
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+  }
 
   loadInitialData() {
-    return this.http.get<Participation>(this.olympicUrl).pipe(
+    return this.http.get<Olympic[]>(this.olympicUrl).pipe(
       tap((value) => this.olympics$.next(value)),
+
+      // we should format here for Participation -> pie chart 
+
       catchError((error, caught) => {
         // TODO: improve error handling
         console.error(error);
@@ -30,17 +35,30 @@ export class OlympicService {
     return this.olympics$.asObservable();
   }
 
-  getMedalsCount(){
-    let array:any = [];
-    this.getOlympics().forEach(element => {
-      let name = element.country;
-      let value = 0;
-      element.participations.forEach((element: { medalsCount: number; }) => {
-       value += element.medalsCount;
-      });
-      array.push({name,value});
-    
+  //Intermediate function. 
+  getTotalMedals(participation: Participation[]){
+    let total = 0;
+    participation.forEach(element => {
+      total += element.medalsCount;
     });
-    return array ;
+    return total;
   }
+
+  // Convert Observable data for ngx Piechart 
+  toPie(obs: Observable<Olympic[]>){
+    let total = 0; 
+    return obs.pipe(
+      map(res => res.map(data => { // For each country 
+        {
+          total = this.getTotalMedals(data.participations);
+          return {name:data.country, value:total}
+        };
+      })
+      )
+    )
+  }
+
+ 
+
+
 }

@@ -1,8 +1,3 @@
-
-
-
-
-
 <!-- <p>{{ (olympics$ | async)?.length }} data loaded</p> -->
 
 <div class="card text-bg-primary">
@@ -35,13 +30,13 @@
 </div>
 
 <ngx-charts-pie-chart 
-  [results]=  "testData"
+  [results]="testData"
   [legend]="true"
   [legendTitle]="'Medals per Country'"
   [view]="[1000,500]"
   [labels]="true" 
-  (select) = "onSelect()"
-  (activate) = "onActivate()"
+  (select)="onSelect($event)"
+  (activate)="onActivate()"
   >
 </ngx-charts-pie-chart>
 

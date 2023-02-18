@@ -14,9 +14,13 @@ import { OlympicService } from 'src/app/core/services/olympic.service';
 
 export class HomeComponent implements OnInit {
   public olympics$!: Observable<Olympic[]>;
+  public pie_data$!: Observable<any[]>;
+
   testData = [];
+
   countries!: number;
   numberJOs!:number;
+
   data = [
     {
       "id": 1,
@@ -161,8 +165,10 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     this.olympics$ = this.olympicService.getOlympics();
     this.olympics$.subscribe();
-    console.log(this.olympics$);
-    console.log(this.testData = this.getMedalsPerCountry());
+    console.log("olympics",this.olympics$);
+    this.pie_data$ = this.olympicService.toPie(this.olympics$);
+    console.log("pie data", this.pie_data$);
+    console.log("test data to pie", this.testData = this.getMedalsPerCountry());
    //console.log(this.testData = this.olympicService.getMedalsFromObs());
    
   }
