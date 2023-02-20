@@ -15,7 +15,7 @@
     <div class="card">
       <div class="card-body">
         <h5 class="card-title">Number of JOs:</h5>
-        <p class="card-text">{{testData.length}}</p>
+        <p class="card-text">{{1}}</p>
       </div>
     </div>
   </div>
@@ -23,14 +23,14 @@
     <div class="card">
       <div class="card-body">
         <h5 class="card-title">Number of countries: </h5>
-        <p class="card-text">{{testData.length}}</p>
+        <p class="card-text">{{1}}</p>
       </div>
     </div>
   </div>
 </div>
 
 <ngx-charts-pie-chart 
-  [results]="testData"
+  [results]="pie_data$ | async"
   [legend]="true"
   [legendTitle]="'Medals per Country'"
   [view]="[1000,500]"
@@ -39,5 +39,3 @@
   (activate)="onActivate()"
   >
 </ngx-charts-pie-chart>
-
-<!-- *ngIf="olympics$ | async as surveyData" -->

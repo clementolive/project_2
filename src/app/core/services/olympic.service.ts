@@ -11,15 +11,21 @@ import { Participation } from '../models/Participation';
 export class OlympicService {
   private olympicUrl = './assets/mock/olympic.json';
   private olympics$ = new BehaviorSubject<any>(null);
+  olympic_obs$ = this.olympics$.asObservable();
 
   constructor(private http: HttpClient) {
+    this.olympic_obs$ = this.init();
   }
 
+  init(){
+    return this.http.get<Olympic[]>(this.olympicUrl);
+   }
+
+  //links JSON to subject. 
   loadInitialData() {
     return this.http.get<Olympic[]>(this.olympicUrl).pipe(
-      tap((value) => this.olympics$.next(value)),
-
-      // we should format here for Participation -> pie chart 
+      //tap((value) => this.olympics$.next(value)),
+      tap(res => console.log("initialData", res)),
 
       catchError((error, caught) => {
         // TODO: improve error handling
@@ -45,20 +51,18 @@ export class OlympicService {
   }
 
   // Convert Observable data for ngx Piechart 
-  toPie(obs: Observable<Olympic[]>){
-    let total = 0; 
-    return obs.pipe(
-      map(res => res.map(data => { // For each country 
+  toPie(){
+    let total = 0;
+    return this.olympic_obs$.pipe(
+      map(res => res.map((data: { participations: Participation[]; country: any; }) => {
         {
           total = this.getTotalMedals(data.participations);
           return {name:data.country, value:total}
         };
       })
-      )
+      ),
+      tap(res => console.log("toPie:", res))
     )
   }
-
- 
-
 
 }
