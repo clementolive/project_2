@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { catchError, concatAll, count, distinct, first, map, take, tap } from 'rxjs/operators';
 import { Olympic } from '../models/Olympic';
 import { Participation } from '../models/Participation';
 
@@ -14,12 +14,8 @@ export class OlympicService {
   olympic_obs$ = this.olympics$.asObservable();
 
   constructor(private http: HttpClient) {
-    this.olympic_obs$ = this.init();
+    this.olympic_obs$ = this.loadInitialData();
   }
-
-  init(){
-    return this.http.get<Olympic[]>(this.olympicUrl);
-   }
 
   //links JSON to subject. 
   loadInitialData() {
@@ -38,7 +34,7 @@ export class OlympicService {
   }
 
   getOlympics() {
-    return this.olympics$.asObservable();
+    return this.olympic_obs$;
   }
 
   //Intermediate function. 
@@ -53,15 +49,23 @@ export class OlympicService {
   // Convert Observable data for ngx Piechart 
   toPie(){
     let total = 0;
-    return this.olympic_obs$.pipe(
-      map(res => res.map((data: { participations: Participation[]; country: any; }) => {
+    return this.getOlympics().pipe(
+      map(res => res.map((data: { participations: Participation[]; country: any; }) => 
         {
           total = this.getTotalMedals(data.participations);
-          return {name:data.country, value:total}
-        };
-      })
+          return {name:data.country, value:total};
+        }
+      )
       ),
       tap(res => console.log("toPie:", res))
+    )
+  }
+
+  getJOs(){
+    return this.getOlympics().pipe(
+      map((arr: any[]) => arr[0]),
+      map(new_res => new_res.participations.length),
+      tap(res => console.log("getNumberJOs:", res)),
     )
   }
 
