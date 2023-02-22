@@ -83,24 +83,29 @@ export class OlympicService {
   //       },
   //     ]
   //   },
-  toLine(){
+  // ]
+
+  participationToLine(participation: Participation[]){
+    let array:any[] = [];
+    participation.forEach(element => {
+      array.push({value:element.medalsCount, name:element.year});
+    });
+    return array;
+}
+
+
+  toLine(my_country:string){
     return this.getOlympics().pipe(
-      //tap(res => console.log("TEST: ", res)),
+      map(res => 
+         res.find((element: { country: string; }) => element.country === my_country),
+    ),
+      tap(res => console.log("We isolate the right country : ", res)),
+      map(res => {
+        return [{name:my_country, series:this.participationToLine(res.participations)}];
+      }),
+      tap(res => console.log("ToLine formating : ", res)),
     )
   }
 
-  medalsPerCountry(my_country:string){
-    return this.getOlympics().pipe(
-      tap((res:Olympic) => console.log("LINE data 1 : ", res)),
-      filter((data: Olympic) =>  data.country === my_country),
-      tap(res => console.log("LINE data 2: ", res)),
-      // map(res => res.participations),
-      // tap(res => console.log("LINE data 3: ", res)),
-      // map(res => {
-      //   return {value: res.medalsCount, name: res.year};
-      // }),
-      
-  )
-}
 
 }

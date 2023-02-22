@@ -4,11 +4,16 @@
     </div>
 </div>
 
-<!-- <ngx-charts-line-chart >
-  [view]="[1000, 500]"
+<ngx-charts-line-chart
   [results]="line_data$ | async"
-
-</ngx-charts-line-chart> -->
+  [view]="[1200,500]"
+  [xAxis]="true"
+  [yAxis]="true"
+  [legend]="true"
+  [showXAxisLabel]="true"
+  [showYAxisLabel]="true"
+  >
+</ngx-charts-line-chart>
 <hr>
 
 <div class="row row-cols-1 row-cols-md-2 g-4">
