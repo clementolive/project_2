@@ -19,7 +19,7 @@ export class OlympicService {
   //links JSON to subject. 
   loadInitialData() {
     this.olympic_obs$ =  this.http.get<Olympic[]>(this.olympicUrl).pipe(
-      tap(res => console.log("Load initial Data", res)),
+      //tap(res => console.log("Load initial Data", res)),
       take(1), // added here. was outside function in app.component 
       catchError((error, caught) => {
         // TODO: improve error handling
@@ -44,7 +44,7 @@ export class OlympicService {
     return total;
   }
 
-  // Convert Observable data for ngx Piechart 
+  //Format Observable data for ngx Piechart 
   toPie(){
     let total = 0;
     return this.getOlympics().pipe(
@@ -55,7 +55,21 @@ export class OlympicService {
         }
       )
       ),
-     // tap(res => console.log("toPie:", res))
+      //tap(res => console.log("toPie : ", res)),
+    )
+  }
+
+  //Total medals per country array ==> total medals from a specific country 
+  totalMedalsCountry(my_country:string){
+    return this.toPie().pipe(
+      map(res => 
+        res.find((element: { name: string; }) => element.name === my_country),
+      ), 
+      //tap(res => console.log("medals for a country : ", res)),
+      map(res => {
+        return res.value;
+      }),
+      //tap(res => console.log("medals per country : ", res)),
     )
   }
 
@@ -64,27 +78,10 @@ export class OlympicService {
     return this.getOlympics().pipe(
       map((arr: any[]) => arr[0]),
       map(new_res => new_res.participations.length),
-      //tap(res => console.log("getNumberJOs:", res)),
     )
   }
 
-  //medals per edition (for one country)
-  // [
-  //   {
-  //     "name": "Italy",
-  //     "series": [
-  //       {
-  //         "value": 4271,
-  //         "name": "2016-09-23T05:09:43.973Z"
-  //       },
-  //       {
-  //         "value": 5428,
-  //         "name": "2016-09-22T21:29:28.193Z"
-  //       },
-  //     ]
-  //   },
-  // ]
-
+  //Intermediate function. Makes array with medal and year for a specific country 
   participationToLine(participation: Participation[]){
     let array:any[] = [];
     participation.forEach(element => {
@@ -93,19 +90,51 @@ export class OlympicService {
     return array;
 }
 
-
+  //Format olympic data to use in a NGX line chart
+  //1. Get the element related to a specific country 
+  //2. Format a new array, getting medals and years
+  //3. Format into line chart (name, series)
+  //Line chart format: medals per edition (for one country)
+  // [
+  //   {
+  //     "name": "Italy",
+  //     "series": [
+  //       {
+  //         "value": 4271,
+  //         "name": "2016-09-23T05:09:43.973Z"
+  //       },
+  //     ]
+  //   },
+  // ]
   toLine(my_country:string){
     return this.getOlympics().pipe(
       map(res => 
          res.find((element: { country: string; }) => element.country === my_country),
-    ),
-      tap(res => console.log("We isolate the right country : ", res)),
+      ),
+      tap( res => console.log('toLine step 1', res)),
       map(res => {
         return [{name:my_country, series:this.participationToLine(res.participations)}];
       }),
-      tap(res => console.log("ToLine formating : ", res)),
     )
   }
 
+    //Intermediate function
+    getTotalAthletesPerCountry(participation: Participation[]){
+      let total = 0;
+      participation.forEach(element => {
+        total += element.athleteCount;
+      });
+      return total;
+    }
+
+    getTotalAthletes(my_country:string){
+      return this.getOlympics().pipe(
+        map(res => 
+           res.find((element: { country: string; }) => element.country === my_country),
+        ),
+        map(res => {return this.getTotalAthletesPerCountry(res.participations)}),
+        tap( res => console.log('getTotalAthletes', res)),
+      )
+    }
 
 }
