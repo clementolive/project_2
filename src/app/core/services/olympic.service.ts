@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { catchError, concatAll, count, distinct, filter, find, first, map, take, tap } from 'rxjs/operators';
+import { BehaviorSubject, } from 'rxjs';
+import { catchError, map, take, tap } from 'rxjs/operators';
 import { Olympic } from '../models/Olympic';
 import { Participation } from '../models/Participation';
 
@@ -19,7 +19,6 @@ export class OlympicService {
   //links JSON to subject. 
   loadInitialData() {
     this.olympic_obs$ =  this.http.get<Olympic[]>(this.olympicUrl).pipe(
-      //tap(res => console.log("Load initial Data", res)),
       take(1), // added here. was outside function in app.component 
       catchError((error, caught) => {
         // TODO: improve error handling
@@ -35,7 +34,7 @@ export class OlympicService {
     return this.olympic_obs$;
   }
 
-  //Intermediate function. 
+  //Intermediate function. Counts medals for all participations of an array. 
   getTotalMedals(participation: Participation[]){
     let total = 0;
     participation.forEach(element => {
@@ -55,7 +54,6 @@ export class OlympicService {
         }
       )
       ),
-      //tap(res => console.log("toPie : ", res)),
     )
   }
 
@@ -65,11 +63,9 @@ export class OlympicService {
       map(res => 
         res.find((element: { name: string; }) => element.name === my_country),
       ), 
-      //tap(res => console.log("medals for a country : ", res)),
       map(res => {
         return res.value;
       }),
-      //tap(res => console.log("medals per country : ", res)),
     )
   }
 
@@ -111,30 +107,28 @@ export class OlympicService {
       map(res => 
          res.find((element: { country: string; }) => element.country === my_country),
       ),
-      tap( res => console.log('toLine step 1', res)),
       map(res => {
         return [{name:my_country, series:this.participationToLine(res.participations)}];
       }),
     )
   }
 
-    //Intermediate function
-    getTotalAthletesPerCountry(participation: Participation[]){
-      let total = 0;
-      participation.forEach(element => {
-        total += element.athleteCount;
-      });
-      return total;
-    }
+  //Intermediate function
+  getTotalAthletesPerCountry(participation: Participation[]){
+    let total = 0;
+    participation.forEach(element => {
+      total += element.athleteCount;
+    });
+    return total;
+  }
 
-    getTotalAthletes(my_country:string){
-      return this.getOlympics().pipe(
-        map(res => 
-           res.find((element: { country: string; }) => element.country === my_country),
-        ),
-        map(res => {return this.getTotalAthletesPerCountry(res.participations)}),
-        tap( res => console.log('getTotalAthletes', res)),
-      )
-    }
+  getTotalAthletes(my_country:string){
+    return this.getOlympics().pipe(
+      map(res => 
+          res.find((element: { country: string; }) => element.country === my_country),
+      ),
+      map(res => {return this.getTotalAthletesPerCountry(res.participations)}),
+    )
+  }
 
 }

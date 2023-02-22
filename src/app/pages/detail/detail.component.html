@@ -1,4 +1,5 @@
-<div class="card text-bg-primary">
+
+<div class="card text-bg-primary bg-success">
     <div class="card-body">
       <h5 class="card-title">{{country}}</h5>
     </div>
@@ -8,7 +9,7 @@
 
 <div class="row row-cols-1 row-cols-md-3 g-4">
   <div class="col">
-    <div class="card">
+    <div class="card border-success">
       <div class="card-body">
         <h5 class="card-title">Number of entries:</h5>
         <p class="card-text"> {{numberJOs$ | async}} </p>
@@ -17,7 +18,7 @@
   </div>
 
   <div class="col">
-    <div class="card">
+    <div class="card border-success">
       <div class="card-body">
         <h5 class="card-title">Total number medals</h5>
         <p class="card-text"> {{total_medals$ | async}} </p>
@@ -26,28 +27,34 @@
   </div>
 
   <div class="col">
-    <div class="card">
+    <div class="card border-success">
       <div class="card-body">
         <h5 class="card-title">Total number of athletes</h5>
         <p class="card-text"> {{total_athletes$ | async}} </p>
       </div>
     </div>
   </div>
-
 </div>
 
-  <ngx-charts-line-chart
-  [results]="line_data$ | async"
-  [view]="[1200,500]"
-  [legend]="true"
-  [xAxisLabel]="xAxisLabel"
-  [yAxisLabel]="yAxisLabel"
-  [showXAxisLabel]="true"
-  [showYAxisLabel]="true"
-  [xAxis]="true"
-  [yAxis]="true"
-  >
-</ngx-charts-line-chart>
+<div class="container">
+  <div class="row">
+    <ngx-charts-line-chart
+    [results]="line_data$ | async"
+    [view]="[1200,500]"
+    [legend]="true"
+    [xAxisLabel]="xAxisLabel"
+    [yAxisLabel]="yAxisLabel"
+    [showXAxisLabel]="true"
+    [showYAxisLabel]="true"
+    [xAxis]="true"
+    [yAxis]="true"
+    >
+    </ngx-charts-line-chart>
+  </div>
+</div>
 
-<button type="button" routerLink="" class="btn btn-dark">Back</button>
-
+<div class="container">
+  <div class="row">
+    <button type="button" routerLink="" class="btn btn-dark">Back</button>
+  </div>
+</div>

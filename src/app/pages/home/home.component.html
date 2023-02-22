@@ -1,7 +1,11 @@
 
-<div class="card text-bg-primary">
-  <div class="card-body">
-    <h5 class="card-title">Medals per country</h5>
+<div class="container">
+
+<div class="row">
+  <div class="card text-bg-primary bg-success">
+    <div class="card-body">
+      <h5 class="card-title">Medals per country</h5>
+    </div>
   </div>
 </div>
 
@@ -9,9 +13,9 @@
 <p class="lead">You can find here informations about olympic medals from several countries.</p>
 <hr />
 
-<div class="row row-cols-1 row-cols-md-2 g-4">
+<div class="row">
   <div class="col">
-    <div class="card">
+    <div class="card border-success">
       <div class="card-body">
         <h5 class="card-title">Number of JOs:</h5>
         <p class="card-text"> {{numberJOs$ | async}} </p>
@@ -20,7 +24,7 @@
   </div>
 
   <div class="col">
-    <div class="card">
+    <div class="card border-success">
       <div class="card-body">
         <h5 class="card-title">Number of countries:</h5>
         <p class="card-text"> {{(pie_data$ | async)?.length}}</p>
@@ -39,3 +43,6 @@
   (activate)="onActivate()"
   >
 </ngx-charts-pie-chart>
+
+
+</div>

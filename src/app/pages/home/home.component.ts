@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable} from 'rxjs';
 import { Olympic } from 'src/app/core/models/Olympic';
@@ -17,6 +17,7 @@ export class HomeComponent implements OnInit {
   constructor(private olympicService: OlympicService, 
     private router:Router) {}
 
+
   ngOnInit(): void {
     this.pie_data$ = this.olympicService.toPie();
     this.numberJOs$ = this.olympicService.getJOs();
@@ -31,5 +32,8 @@ export class HomeComponent implements OnInit {
   onSelect($event: any){
     this.router.navigateByUrl("detail/" + $event.name);
   }
+
+
+
 
 }

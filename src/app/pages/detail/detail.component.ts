@@ -14,26 +14,20 @@ export class DetailComponent implements OnInit {
   numberJOs$!: Observable<number>;
   line_data$!: Observable<any>;
   total_medals$!: Observable<number>;
-  total_athletes$!: Observable<any>; 
+  total_athletes$!: Observable<number>; 
 
   xAxisLabel = "years";
-  yAxisLabel="medals";
+  yAxisLabel = "medals";
 
   constructor( private activatedRoute:ActivatedRoute, 
     private olympicService: OlympicService) { }
 
   ngOnInit(): void {
     this.country = this.activatedRoute.snapshot.params['country'];
-    console.log(this.country);
-
- 
-
     this.numberJOs$ = this.olympicService.getJOs();
     this.line_data$ = this.olympicService.toLine(this.country);
     this.total_medals$ = this.olympicService.totalMedalsCountry(this.country);
-
     this.total_athletes$ = this.olympicService.getTotalAthletes(this.country);
-    //this.total_athletes$.subscribe();
   }
 
 }
