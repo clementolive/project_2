@@ -1,17 +1,16 @@
 import { Injectable } from '@angular/core';
-import { of } from 'rxjs';
+import { of, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 
-/** This basic Error function displays error for developer and return an Observable 
- * so the data flow is not interrupted.
+/** This basic Error function displays error for developer
  */
 export class ErrorService {
   handleError(error: any) {
-    console.error(error);
-    return of([]);
+    console.error("General error:", error);
+    return throwError(() => new Error('General error'));
   }
 
   constructor() { }

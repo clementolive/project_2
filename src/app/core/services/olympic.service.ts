@@ -134,7 +134,7 @@ export class OlympicService {
           res.find((element: { country: string; }) => element.country === my_country),
       ),
       map(res => {return this.getTotalAthletesPerCountry(res.participations)}),
-
+      catchError((error) => this.errorService.handleError(error))
     )
   }
 
