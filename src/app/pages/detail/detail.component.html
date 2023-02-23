@@ -5,6 +5,8 @@
     </div>
 </div>
 
+<div class="container">
+
 <hr>
 
 <div class="row">
@@ -36,11 +38,11 @@
   </div>
 </div>
 
-<div #containerRef class="container">
+<div #containerRef class="container g-1">
   <div class="row">
     <ngx-charts-line-chart
     [results]="line_data$ | async"
-    [view]="[containerRef.offsetWidth,400]"
+    [view]="[containerRef.offsetWidth,200]"
     [legend]="true"
     [xAxisLabel]="xAxisLabel"
     [yAxisLabel]="yAxisLabel"
@@ -55,5 +57,7 @@
 
 <div class="container-fluid">
     <button type="button" routerLink="" class="btn btn-dark">Back</button>
+
+</div>
 
 </div>
