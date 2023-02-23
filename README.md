@@ -1,5 +1,12 @@
 # OlympicGamesStarter
 
+This application presents data about Olympic games from several countries. A general Piechart displays total medals per country, and the user can get more specific information by clicking on a country. 
+There, a line charts presents all the medals won over time by a specific country. The total number of athletes and participations is also displayed. 
+
+This application is responsive with the Bootstrap CSS framework. I can be run on a smartphone. 
+
+## Tools 
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.1.3.
 
 Don't forget to install your node_modules before starting (`npm install`).
@@ -12,18 +19,18 @@ Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The appli
 
 Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
 
-## Where to start
+## File structure
 
-As you can see, an architecture has already been defined for the project. It is just a suggestion, you can choose to use your own. The predefined architecture includes (in addition to the default angular architecture) the following:
+The project architecture includes (in addition to the default angular architecture) the following:
 
 - `components` folder: contains every reusable components
 - `pages` folder: contains components used for routing
 - `core` folder: contains the business logic (`services` and `models` folders)
 
-I suggest you to start by understanding this starter code. Pay an extra attention to the `app-routing.module.ts` and the `olympic.service.ts`.
+The `olympic.service.ts` is the main service to handle the olympic data stream. 
+The `error.service.ts` is a basic service to handle errors created from the Observables. 
+The typescript interfaces are inside the `models` folder.These files correspond to the data included inside the `olympic.json`.
 
-Once mastered, you should continue by creating the typescript interfaces inside the `models` folder. As you can see I already created two files corresponding to the data included inside the `olympic.json`. With your interfaces, improve the code by replacing every `any` by the corresponding interface.
+## Licence 
 
-You're now ready to implement the requested features.
-
-Good luck!
+As a study project, this code is provided under the GNU public license, giving a lot of freedom to use it. 
