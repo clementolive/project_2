@@ -3,7 +3,7 @@
 This application presents data about Olympic games from several countries. A general Piechart displays total medals per country, and the user can get more specific information by clicking on a country. 
 There, a line charts presents all the medals won over time by a specific country. The total number of athletes and participations is also displayed. 
 
-This application is responsive with the Bootstrap CSS framework. I can be run on a smartphone. 
+This application is responsive with the Bootstrap CSS framework. It can be run on a smartphone. 
 
 ## Tools 
 
@@ -33,4 +33,4 @@ The typescript interfaces are inside the `models` folder.These files correspond 
 
 ## Licence 
 
-As a study project, this code is provided under the GNU public license, giving a lot of freedom to use it. 
+As a study project, this code is provided under the GNU public license. 
