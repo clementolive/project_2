@@ -1,5 +1,4 @@
-// TODO: create here a typescript interface for a participation
-/*
+/** Interface representing a JO participation from a country.
 example of participation:
 {
     id: 1,

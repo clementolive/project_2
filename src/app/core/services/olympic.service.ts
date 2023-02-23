@@ -54,9 +54,8 @@ export class OlympicService {
         {
           total = this.getTotalMedals(data.participations);
           return {name:data.country, value:total};
-        }
-      )
-      ),
+        })),
+        catchError((error) => this.errorService.handleError(error)),
     )
   }
 
@@ -69,6 +68,7 @@ export class OlympicService {
       map(res => {
         return res.value;
       }),
+      catchError((error) => this.errorService.handleError(error)),
     )
   }
 
@@ -77,6 +77,7 @@ export class OlympicService {
     return this.getOlympics().pipe(
       map((arr: any[]) => arr[0]),
       map(new_res => new_res.participations.length),
+      catchError((error) => this.errorService.handleError(error))
     )
   }
 
@@ -113,10 +114,11 @@ export class OlympicService {
       map(res => {
         return [{name:my_country, series:this.participationToLine(res.participations)}];
       }),
+      catchError((error) => this.errorService.handleError(error))
     )
   }
 
-  //Intermediate function
+  //Intermediate function. Get total athletes for one participation 
   getTotalAthletesPerCountry(participation: Participation[]){
     let total = 0;
     participation.forEach(element => {
@@ -125,12 +127,14 @@ export class OlympicService {
     return total;
   }
 
+  //Get total athletes in participations for a specific country
   getTotalAthletes(my_country:string){
     return this.getOlympics().pipe(
       map(res => 
           res.find((element: { country: string; }) => element.country === my_country),
       ),
       map(res => {return this.getTotalAthletesPerCountry(res.participations)}),
+
     )
   }
 

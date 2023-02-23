@@ -1,48 +1,51 @@
 
 <div class="container">
 
-<div class="row">
-  <div class="card text-bg-primary bg-success">
-    <div class="card-body">
-      <h5 class="card-title">Medals per country</h5>
-    </div>
-  </div>
-</div>
-
-<hr />
-<p class="lead">You can find here informations about olympic medals from several countries.</p>
-<hr />
-
-<div class="row">
-  <div class="col">
-    <div class="card border-success">
+  <div class="row">
+    <div class="card text-bg-primary bg-success ">
       <div class="card-body">
-        <h5 class="card-title">Number of JOs:</h5>
-        <p class="card-text"> {{numberJOs$ | async}} </p>
+        <h5 class="card-title">Medals per country</h5>
       </div>
     </div>
   </div>
 
-  <div class="col">
-    <div class="card border-success">
-      <div class="card-body">
-        <h5 class="card-title">Number of countries:</h5>
-        <p class="card-text"> {{(pie_data$ | async)?.length}}</p>
+  <hr />
+  <p class="lead">You can find here informations about olympic medals from several countries.</p>
+  <hr />
+
+  <div class="row">
+    <div class="col ">
+      <div class="card border-success">
+        <div class="card-body">
+          <h5 class="card-title">Number of JOs:</h5>
+          <p class="card-text"> {{numberJOs$ | async}} </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="card border-success">
+        <div class="card-body">
+          <h5 class="card-title">Number of countries:</h5>
+          <p class="card-text"> {{(pie_data$ | async)?.length}}</p>
+        </div>
       </div>
     </div>
   </div>
+
+  <div #containerRef class="card-body">
+  <ngx-charts-pie-chart 
+    [results]="pie_data$ | async"
+    [legend]="true"
+    [legendTitle]="'Medals per Country'"
+    [view]="[containerRef.offsetWidth,400]"
+    [labels]="true" 
+    (select)="onSelect($event)"
+    (activate)="onActivate()"
+    >
+  </ngx-charts-pie-chart>
 </div>
 
-<ngx-charts-pie-chart 
-  [results]="pie_data$ | async"
-  [legend]="true"
-  [legendTitle]="'Medals per Country'"
-  [view]="[1000,500]"
-  [labels]="true" 
-  (select)="onSelect($event)"
-  (activate)="onActivate()"
-  >
-</ngx-charts-pie-chart>
 
 
 </div>
