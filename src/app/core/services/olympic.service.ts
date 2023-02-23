@@ -4,16 +4,21 @@ import { BehaviorSubject, } from 'rxjs';
 import { catchError, map, take, tap } from 'rxjs/operators';
 import { Olympic } from '../models/Olympic';
 import { Participation } from '../models/Participation';
+import { ErrorService } from './error.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class OlympicService {
   private olympicUrl = './assets/mock/olympic.json';
+
   private olympics$ = new BehaviorSubject<any>(null);
+
+  // This links BehaviorSubject, and Observable easier to use 
   olympic_obs$ = this.olympics$.asObservable();
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, 
+    private errorService:ErrorService) {
   }
 
   //links JSON to subject. 
@@ -21,10 +26,8 @@ export class OlympicService {
     this.olympic_obs$ =  this.http.get<Olympic[]>(this.olympicUrl).pipe(
       take(1), // added here. was outside function in app.component 
       catchError((error, caught) => {
-        // TODO: improve error handling
-        console.error(error);
-        // can be useful to end loading state and let the user know something went wrong
-        this.olympics$.next(null);
+        this.errorService.handleError(error);
+        this.olympics$.next(null);  // can be useful to end loading state and let the user know something went wrong
         return caught;
       })
     );
