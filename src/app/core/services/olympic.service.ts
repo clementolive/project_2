@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, } from 'rxjs';
-import { catchError, map, take, tap } from 'rxjs/operators';
+import { catchError, map, take } from 'rxjs/operators';
 import { Olympic } from '../models/Olympic';
 import { Participation } from '../models/Participation';
 import { ErrorService } from './error.service';
@@ -59,7 +59,7 @@ export class OlympicService {
     )
   }
 
-  //Total medals per country array ==> total medals from a specific country 
+  //Going from total medals per country ==> total medals for one country 
   totalMedalsCountry(my_country:string){
     return this.toPie().pipe(
       map(res => 
@@ -72,7 +72,7 @@ export class OlympicService {
     )
   }
 
-  //Get number of JOs participations 
+  //Get number of JOs participations, assuming countries have the same number of participations 
   getJOs(){
     return this.getOlympics().pipe(
       map((arr: any[]) => arr[0]),

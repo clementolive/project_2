@@ -3,6 +3,12 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { OlympicService } from 'src/app/core/services/olympic.service';
 
+/*
+On this page, we get observables as variables from the olympic Service. 
+Then, we subscribe to these with "async" in the HTML for an automatic unsubscribe handling. 
+First the country chosen is obtained by URL parameter, then we can call observables based on the country. 
+*/
+
 @Component({
   selector: 'app-detail',
   templateUrl: './detail.component.html',
