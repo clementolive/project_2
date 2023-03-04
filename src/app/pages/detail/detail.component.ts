@@ -34,7 +34,7 @@ export class DetailComponent implements OnInit {
     this.country = this.activatedRoute.snapshot.params['country'];
     this.numberJOs$ = this.olympicService.getJOs();
     this.line_data$ = this.olympicService.toLine(this.country);
-    this.total_medals$ = this.olympicService.totalMedalsCountry(this.country);
+    this.total_medals$ = this.olympicService.totalMedalsNew(this.country);
     this.total_athletes$ = this.olympicService.getTotalAthletes(this.country);
   }
 

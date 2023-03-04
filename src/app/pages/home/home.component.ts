@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable} from 'rxjs';
 import { Olympic } from 'src/app/core/models/Olympic';
+import { PieChartElement } from 'src/app/core/models/PieChartElement';
 import { OlympicService } from 'src/app/core/services/olympic.service';
 
 @Component({
@@ -11,7 +12,7 @@ import { OlympicService } from 'src/app/core/services/olympic.service';
 })
 
 export class HomeComponent implements OnInit {
-  pie_data$!: Observable<Olympic[]>;
+  pie_data$!: Observable<PieChartElement[]>;
   numberJOs$!:Observable<number>;
 
   constructor(private olympicService: OlympicService, 

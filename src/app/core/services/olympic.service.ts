@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, } from 'rxjs';
-import { catchError, first, map, skip, take } from 'rxjs/operators';
+import { BehaviorSubject, ReplaySubject, Subject, } from 'rxjs';
+import { catchError, filter, first, map, skip, take } from 'rxjs/operators';
 import { Olympic } from '../models/Olympic';
 import { Participation } from '../models/Participation';
 import { ErrorService } from './error.service';
@@ -20,7 +20,7 @@ export class OlympicService {
     "athleteCount": 372
   }]}];
 
-  private olympics$ = new BehaviorSubject<any>(null);
+  private olympics$ = new BehaviorSubject<Olympic[]>(this.firstOlympic);
 
   // This links BehaviorSubject, and Observable easier to use 
   olympic_obs$ = this.olympics$.asObservable();
@@ -35,7 +35,7 @@ export class OlympicService {
       take(1), // added here. was outside function in app.component 
       catchError((error, caught) => {
         this.errorService.handleError(error);
-        this.olympics$.next(null);  // can be useful to end loading state and let the user know something went wrong
+        this.olympics$.next(this.firstOlympic);  // can be useful to end loading state and let the user know something went wrong
         return caught;
       })
     );
@@ -68,22 +68,42 @@ export class OlympicService {
   }
 
   //Going from total medals per country ==> total medals for one country 
-  totalMedalsCountry(my_country:string){
-    return this.toPie().pipe(
-      map(res => 
-        res.find((element: { name: string; }) => element.name === my_country),
-      ), 
-      map(res => {
-        return res.value;
-      }),
-      catchError((error) => this.errorService.handleError(error)),
+  // totalMedalsCountry(my_country:string){
+  //   return this.toPie().pipe(
+  //     map(res => {
+  //       res.find((element: { name: string; }) => element.name === my_country);
+  //     }), 
+      
+  //     map(res => {
+  //       return res.value;
+  //     }),
+  //     catchError((error) => this.errorService.handleError(error)),
+  //   )
+  // }
+
+  totalMedalsNew(my_country:string){
+    let total = 0;
+    return this.getOlympics().pipe(
+        map(res => 
+          res.filter((item: { country: string; }) => item.country === my_country),
+        ),
+        map(res => res.map((data: Olympic) => 
+        {
+          return this.getTotalMedals(data.participations);
+        })),
+        map(arr => arr[0]),
+        catchError((error) => this.errorService.handleError(error)),
     )
   }
+
+
+
+
 
   //Get number of JOs participations, assuming countries have the same number of participations 
   getJOs(){
     return this.getOlympics().pipe(
-      map((arr: any[]) => arr[0]),
+      map((arr: Olympic[]) => arr[0]),
       map(new_res => new_res.participations.length),
       catchError((error) => this.errorService.handleError(error))
     )
@@ -114,11 +134,25 @@ export class OlympicService {
   //     ]
   //   },
   // ]
-  toLine(my_country:string){
+
+  // toLine(my_country:string){
+  //   return this.getOlympics().pipe(
+  //     map(res => 
+  //        res.find((element: { country: string; }) => element.country === my_country),
+  //     ),
+  //     map(res => {
+  //       return [{name:my_country, series:this.participationToLine(res.participations)}];
+  //     }),
+  //     catchError((error) => this.errorService.handleError(error))
+  //   )
+  // }
+
+    toLine(my_country:string){
     return this.getOlympics().pipe(
       map(res => 
-         res.find((element: { country: string; }) => element.country === my_country),
+        res.filter((item: { country: string; }) => item.country === my_country),
       ),
+      map(arr => arr[0]),
       map(res => {
         return [{name:my_country, series:this.participationToLine(res.participations)}];
       }),
@@ -139,8 +173,9 @@ export class OlympicService {
   getTotalAthletes(my_country:string){
     return this.getOlympics().pipe(
       map(res => 
-          res.find((element: { country: string; }) => element.country === my_country),
+        res.filter((item: { country: string; }) => item.country === my_country),
       ),
+      map(arr => arr[0]),
       map(res => {return this.getTotalAthletesPerCountry(res.participations)}),
       catchError((error) => this.errorService.handleError(error))
     )
