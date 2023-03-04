@@ -17,19 +17,13 @@ export class HomeComponent implements OnInit {
   constructor(private olympicService: OlympicService, 
     private router:Router) {}
 
-
   ngOnInit(): void {
     this.pie_data$ = this.olympicService.toPie();
     this.numberJOs$ = this.olympicService.getJOs();
   }
 
-  //hover 
-  onActivate(){
-
-  }
-
   //click on element 
-  onSelect($event: any){
+  onSelect($event: { name: string; }){
     this.router.navigateByUrl("detail/" + $event.name);
   }
 

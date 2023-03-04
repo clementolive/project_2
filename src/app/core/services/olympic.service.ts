@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, } from 'rxjs';
-import { catchError, map, take } from 'rxjs/operators';
+import { catchError, first, map, skip, take } from 'rxjs/operators';
 import { Olympic } from '../models/Olympic';
 import { Participation } from '../models/Participation';
 import { ErrorService } from './error.service';
@@ -11,6 +11,14 @@ import { ErrorService } from './error.service';
 })
 export class OlympicService {
   private olympicUrl = './assets/mock/olympic.json';
+
+  private firstOlympic: Olympic[] = [{id:0, country:"none", participations:[ {
+    "id": 1,
+    "year": 2012,
+    "city": "Londres",
+    "medalsCount": 28,
+    "athleteCount": 372
+  }]}];
 
   private olympics$ = new BehaviorSubject<any>(null);
 

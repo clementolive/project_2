@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
+import { LineChartData } from 'src/app/core/models/LineChartData';
+import { LineChartParticipation } from 'src/app/core/models/LineChartParticipation';
 import { OlympicService } from 'src/app/core/services/olympic.service';
 
 /*
@@ -18,7 +20,7 @@ First the country chosen is obtained by URL parameter, then we can call observab
 export class DetailComponent implements OnInit {
   country!: string;
   numberJOs$!: Observable<number>;
-  line_data$!: Observable<any>;
+  line_data$!: Observable<LineChartData>;
   total_medals$!: Observable<number>;
   total_athletes$!: Observable<number>; 
 
