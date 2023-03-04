@@ -1,7 +1,6 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable} from 'rxjs';
-import { Olympic } from 'src/app/core/models/Olympic';
 import { PieChartElement } from 'src/app/core/models/PieChartElement';
 import { OlympicService } from 'src/app/core/services/olympic.service';
 

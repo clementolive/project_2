@@ -67,21 +67,7 @@ export class OlympicService {
     )
   }
 
-  //Going from total medals per country ==> total medals for one country 
-  // totalMedalsCountry(my_country:string){
-  //   return this.toPie().pipe(
-  //     map(res => {
-  //       res.find((element: { name: string; }) => element.name === my_country);
-  //     }), 
-      
-  //     map(res => {
-  //       return res.value;
-  //     }),
-  //     catchError((error) => this.errorService.handleError(error)),
-  //   )
-  // }
-
-  totalMedalsNew(my_country:string){
+  totalMedalsCountry(my_country:string){
     let total = 0;
     return this.getOlympics().pipe(
         map(res => 
@@ -96,10 +82,6 @@ export class OlympicService {
     )
   }
 
-
-
-
-
   //Get number of JOs participations, assuming countries have the same number of participations 
   getJOs(){
     return this.getOlympics().pipe(
@@ -111,7 +93,7 @@ export class OlympicService {
 
   //Intermediate function. Makes array with medal and year for a specific country 
   participationToLine(participation: Participation[]){
-    let array:any[] = [];
+    let array:{value:number,name:number}[] = [];
     participation.forEach(element => {
       array.push({value:element.medalsCount, name:element.year});
     });
@@ -134,19 +116,6 @@ export class OlympicService {
   //     ]
   //   },
   // ]
-
-  // toLine(my_country:string){
-  //   return this.getOlympics().pipe(
-  //     map(res => 
-  //        res.find((element: { country: string; }) => element.country === my_country),
-  //     ),
-  //     map(res => {
-  //       return [{name:my_country, series:this.participationToLine(res.participations)}];
-  //     }),
-  //     catchError((error) => this.errorService.handleError(error))
-  //   )
-  // }
-
     toLine(my_country:string){
     return this.getOlympics().pipe(
       map(res => 
